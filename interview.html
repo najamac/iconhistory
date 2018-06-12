@@ -1,38 +1,4 @@
-<?php
-include "dbconnect.inc.php";
-session_start();
- 
-   
-// If session variable is not set it will redirect to login page
-if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
-  header("location: index.php");
-  exit;
-  
-}
 
-else{
-$q=$_POST['question'];
- $a=$_POST['answer'];
-// echo $a;
- //echo "<script language=\"javascript\">alert('$q');</script>";
-
-if ($q != ""){
-$sql="insert into interviewlog (username, question, answer) values ('".$_SESSION['username']."','".$q."','".$a."')";
-
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
-}
-//echo $sql;
-}
-
-
-	
-
-
-?>
 <!DOCTYPE html>
 <html>
 <head>
