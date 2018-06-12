@@ -22,46 +22,11 @@
 			});
 		});
 		var recognition;
-		 var recorder;
- var blob;
-
-var fileName;
-var pathToFile;
-
 		function startRecognition() {
-		alert("inhere");
+			alert("start recording");
 			recognition = new webkitSpeechRecognition();
 			recognition.onstart = function(event) {
 				updateRec();
-				
-				fileName = test;
-
-////console.log("In start recording. Filename:"+fileName);
-////console.log("In start recording. path:"+pathToFile);
-// request permission to access audio stream
-navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-    // store streaming data chunks in array
-    const chunks = [];
-    // create media recorder instance to initialize recording
-     recorder = new MediaRecorder(stream);
-    // function to be called when data is received
-    recorder.ondataavailable = e => {
-      // add stream data to chunks
-      chunks.push(e.data);
-      // if recorder is 'inactive' then recording has finished
-      if (recorder.state == 'inactive') {
-          // convert stream data chunks to a 'webm' audio format as a blob
-           blob = new Blob(chunks, { type: 'audio/webm' });
-			sendRecToPost(blob);
-          // convert blob to URL so it can be assigned to a audio src attribute
-          //createAudioElement(URL.createObjectURL(blob));
-      }
-    };
-    // start recording with 1 second time between receiving 'ondataavailable' events
-    recorder.start();
-    // setTimeout to stop recording after 5 seconds
-   
-  }).catch(console.error);
 			};
 			recognition.onresult = function(event) {
 				var text = "";
@@ -81,7 +46,6 @@ navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
 		function stopRecognition() {
 			if (recognition) {
 				recognition.stop();
-				 recorder.stop();
 				recognition = null;
 			}
 			updateRec();
@@ -101,12 +65,6 @@ navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
 			$("#rec").text(recognition ? "Stop" : "Speak");
 		}
 		function send() {
-		alert("file",blob);
-	alert("path",pathToFile);
-	alert("name",fileName);
-	alert("transcript",transcript);
-
-	
 			var text = $("#input").val();
 			conversation.push("Me: " + text + '\r\n');
 			$.ajax({
