@@ -34,9 +34,11 @@
 			    	text += event.results[i][0].transcript;
 			    }
 			    setInput(text);
+			    alert("stop recording");
 				stopRecognition();
 			};
 			recognition.onend = function() {
+			alert("stop recording");
 				stopRecognition();
 			};
 			recognition.lang = "en-US";
@@ -44,6 +46,7 @@
 		}
 	
 		function stopRecognition() {
+		alert("stop recording");
 			if (recognition) {
 				recognition.stop();
 				recognition = null;
