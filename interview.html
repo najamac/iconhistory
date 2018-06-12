@@ -29,6 +29,7 @@ var fileName;
 var pathToFile;
 
 		function startRecognition() {
+		alert("inhere");
 			recognition = new webkitSpeechRecognition();
 			recognition.onstart = function(event) {
 				updateRec();
