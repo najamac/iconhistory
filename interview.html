@@ -24,6 +24,10 @@
 		var recognition;
 		function startRecognition() {
 			alert("start recording");
+			alert("Url  ="+document.location);
+
+////console.log("In start recording. Filename:"+fileName);
+////console.log("In start recording. path:"+pathToFile);
 			recognition = new webkitSpeechRecognition();
 			recognition.onstart = function(event) {
 				updateRec();
@@ -34,11 +38,9 @@
 			    	text += event.results[i][0].transcript;
 			    }
 			    setInput(text);
-			    alert("stop recording");
 				stopRecognition();
 			};
 			recognition.onend = function() {
-			alert("stop recording");
 				stopRecognition();
 			};
 			recognition.lang = "en-US";
