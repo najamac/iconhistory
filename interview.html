@@ -9,6 +9,8 @@
 	<script type="text/javascript">
 		var accessToken = "4666e9cb84b342a7b13135b60b6128e3";
 		var baseUrl = "https://api.api.ai/v1/";
+		 var recorder;
+ var blob;
 		$(document).ready(function() {
 			$("#input").keypress(function(event) {
 				if (event.which == 13) {
@@ -24,8 +26,32 @@
 		var recognition;
 		function startRecognition() {
 			alert("start recording");
+			navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    // store streaming data chunks in array
+    const chunks = [];
+    // create media recorder instance to initialize recording
+     recorder = new MediaRecorder(stream);
+    // function to be called when data is received
+    recorder.ondataavailable = e => {
+      // add stream data to chunks
+      chunks.push(e.data);
+      // if recorder is 'inactive' then recording has finished
+      if (recorder.state == 'inactive') {
+          // convert stream data chunks to a 'webm' audio format as a blob
+           blob = new Blob(chunks, { type: 'audio/webm' });
+			sendRecToPost(blob);
+          // convert blob to URL so it can be assigned to a audio src attribute
+          //createAudioElement(URL.createObjectURL(blob));
+      }
+    };
+    // start recording with 1 second time between receiving 'ondataavailable' events
+    recorder.start();
+    // setTimeout to stop recording after 5 seconds
+   
+  }).catch(console.error);
+{
+			alert("start recording");
 			alert("Url  ="+document.location);
-
 ////console.log("In start recording. Filename:"+fileName);
 ////console.log("In start recording. path:"+pathToFile);
 			recognition = new webkitSpeechRecognition();
